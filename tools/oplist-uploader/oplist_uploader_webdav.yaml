@@ -1,0 +1,53 @@
+# Example configuration for WebDAV incremental uploader
+# Save as tools/oplist-uploader/oplist_uploader_webdav.yaml and edit values accordingly.
+
+# Required paths
+source_dir: /path/to/source
+# Remote destination root path under the WebDAV base URL (keep leading slash)
+dest_root: /123/动画
+
+# WebDAV server
+webdav_base_url: https://webdav.example.com/dav
+
+# Authentication: choose one of basic or bearer
+auth_type: basic   # basic | bearer
+username: your-username
+password: your-password
+# bearer_token: your-token-when-using-bearer
+
+# TLS and networking
+verify_ssl: true
+# Request timeout in seconds
+timeout_seconds: 30
+
+# State and logging
+state_file: /path/to/source/.oplist_state.json
+log_file: /path/to/source/.oplist_uploader.log
+
+# Concurrency and retries
+concurrency: 4
+retries: 3
+retry_backoff_seconds: 1.0
+
+# File selection
+include_globs:
+  - "**/*"
+exclude_globs:
+  - ".oplist_archive/**"
+  - ".oplist_state.json"
+  - ".oplist_uploader.log"
+
+# Delete mode after successful upload: archive (default) or delete
+delete_mode: archive   # archive | delete
+# Archive directory (default: <source_dir>/.oplist_archive)
+archive_dir: /path/to/source/.oplist_archive
+# Retention days for archive cleanup (0 disables retention cleanup)
+retention_days: 30
+# Clean empty directories after moving/deleting files
+clean_empty_dirs: true
+
+# Fingerprint method used to detect changes: size_mtime (fast) or sha256 (strict)
+fingerprint: size_mtime  # size_mtime | sha256
+
+# Optional: number of history entries to keep per file in state file
+history_keep: 5
