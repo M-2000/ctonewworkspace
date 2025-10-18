@@ -20,9 +20,8 @@ make setup
 Or manually:
 
 ```bash
-rustup target add aarch64-linux-android armv7-linux-androideabi
+rustup target add aarch64-linux-android
 rustup target add x86_64-pc-windows-msvc
-cargo install cargo-ndk
 ```
 
 ## 2. Build the Project
@@ -63,7 +62,7 @@ flutter run -d windows
 
 ## 4. Verify Installation
 
-The app should display a simple UI with a button that calls Rust code and displays a greeting message.
+The app should display a UI showing the core library version metadata. The refresh button allows you to reload the version information from the Rust library via FFI.
 
 ## Troubleshooting
 

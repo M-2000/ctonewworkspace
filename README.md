@@ -40,20 +40,12 @@ This workspace consists of three main components:
 2. **Android NDK** for Rust compilation
    - Install via Android Studio SDK Manager
 
-3. **Rust Android Targets**
+3. **Rust Android Target**
    ```bash
    rustup target add aarch64-linux-android
-   rustup target add armv7-linux-androideabi
-   rustup target add x86_64-linux-android
-   rustup target add i686-linux-android
    ```
 
-4. **cargo-ndk** for cross-compilation
-   ```bash
-   cargo install cargo-ndk
-   ```
-
-5. **Environment Variables**
+4. **Environment Variables**
    ```bash
    export ANDROID_HOME=$HOME/Android/Sdk
    export NDK_HOME=$ANDROID_HOME/ndk/25.1.8937393
@@ -77,14 +69,13 @@ This workspace consists of three main components:
 
 ### Build Rust Core Library
 
-#### For Android
+#### For Android (arm64-v8a)
 ```bash
 cd core
 cargo build --release --target aarch64-linux-android
-cargo build --release --target armv7-linux-androideabi
 ```
 
-#### For Windows
+#### For Windows (MSVC)
 ```bash
 cd core
 cargo build --release --target x86_64-pc-windows-msvc
@@ -145,6 +136,17 @@ flutter run -d windows
 2. Rebuild the Rust library for target platform
 3. Run Flutter app with `flutter run`
 4. The app automatically loads the native library
+
+## Core Version API (M0-2)
+
+The M0-2 milestone introduces the `core_version` API that exposes Rust crate metadata via FFI:
+
+- `core_version()` returns a JSON string with `crate_name` and `crate_version`
+- The Dart bridge provides a safe wrapper: `coreVersion()`
+- Flutter UI (`app/lib/main.dart`) decodes and displays the metadata
+- Supported platforms: Windows (x86_64-pc-windows-msvc) and Android (arm64-v8a)
+
+See [CORE_VERSION_API.md](CORE_VERSION_API.md) for detailed documentation.
 
 ## Testing
 

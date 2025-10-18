@@ -1,10 +1,11 @@
-# Project Status - M0-1: Bootstrap Complete
+# Project Status - M0-2: Core Version API
 
 ## Milestone Overview
 
 **Status**: ✅ Complete  
 **Version**: 0.1.0  
-**Date**: 2025-10-18
+**Date**: 2025-10-18  
+**Milestone**: M0-2
 
 ## Deliverables Checklist
 
@@ -40,14 +41,13 @@
 - [x] Rust library crate structure created
 - [x] `Cargo.toml` configured as cdylib
 - [x] Cross-platform build settings
-- [x] Example FFI function (`greet`)
+- [x] Version metadata FFI function (`core_version`)
 - [x] Memory management functions
 - [x] Unit tests
 - [x] Release profile optimizations
 
 **Supported Targets:**
-- [x] aarch64-linux-android
-- [x] armv7-linux-androideabi
+- [x] aarch64-linux-android (arm64-v8a)
 - [x] x86_64-pc-windows-msvc
 
 ### ✅ Bridge Package (`/bridge`)
@@ -172,13 +172,13 @@
 
 ### Core Functionality
 - ✅ FFI integration between Flutter and Rust
-- ✅ Example `greet` function demonstrating data flow
+- ✅ `core_version` function exposing JSON metadata
 - ✅ Memory management at FFI boundary
 - ✅ Error handling in FFI calls
 
 ### Platform Support
-- ✅ Android (ARM64, ARMv7)
-- ✅ Windows (x86_64)
+- ✅ Android (arm64-v8a)
+- ✅ Windows (x86_64-MSVC)
 
 ### Development Tools
 - ✅ Build automation scripts

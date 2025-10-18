@@ -15,11 +15,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Build automation scripts (build.sh, Makefile)
 - Documentation (README, QUICKSTART, CONTRIBUTING)
 - GitHub Actions CI workflow for automated testing
-- Example greet function demonstrating FFI integration
+- **core_version API**: Rust FFI function returning JSON-formatted version metadata (M0-2)
+  - Exposes crate name and version via C ABI
+  - Complete Dart FFI bindings for core_version function
+  - Flutter UI demonstrating version display
+  - Unit tests for Rust core_version function
 - Unit tests for Rust and Flutter components
 
 ### Platform Support
-- Android (ARM64, ARMv7)
-- Windows (x86_64)
+- Android (arm64-v8a via NDK)
+- Windows (x86_64-MSVC)
 
 [0.1.0]: https://github.com/yourorg/yourrepo/releases/tag/v0.1.0

@@ -110,31 +110,30 @@ This document describes the high-level architecture of the Flutter + Rust hybrid
 
 1. **Dart invocation**
    ```dart
-   String result = greet('World');
+   final versionJson = coreVersion();
+   final metadata = jsonDecode(versionJson);
    ```
 
 2. **Bridge conversion**
    ```dart
-   final namePtr = name.toNativeUtf8().cast<ffi.Char>();
-   final resultPtr = _greet(namePtr);
+   final resultPtr = _coreVersion();
    ```
 
 3. **FFI boundary**
-   - Dart string → C char pointer
-   - Call native function
-   - C char pointer → Dart string
+   - Call native function through C ABI
+   - Convert C char pointer → Dart string
 
 4. **Rust processing**
    ```rust
    #[no_mangle]
-   pub extern "C" fn greet(name: *const c_char) -> *mut c_char {
-       // Process and return result
+   pub extern "C" fn core_version() -> *mut c_char {
+       // Serialize crate metadata to JSON string
    }
    ```
 
 5. **Memory cleanup**
-   - Free Rust-allocated memory
-   - Free Dart-allocated memory
+   - Free Rust-allocated string via `free_string`
+   - Dart code releases native memory automatically
 
 ## Build Process
 
@@ -142,15 +141,15 @@ This document describes the high-level architecture of the Flutter + Rust hybrid
 
 1. Flutter builds Dart code to native
 2. CMake invokes Cargo for Rust compilation
-3. Rust builds for Android targets (ARM64, ARMv7)
-4. Shared libraries (.so) copied to APK
+3. Rust builds for Android target (arm64-v8a)
+4. Shared library (.so) copied to APK
 5. APK assembled with all assets
 
 ### Windows Build Flow
 
 1. Flutter builds Dart code to native
 2. CMake invokes Cargo for Rust compilation
-3. Rust builds for Windows target (x86_64-MSVC)
+3. Rust builds for Windows target (x86_64-pc-windows-msvc)
 4. DLL copied to executable directory
 5. Executable packaged with dependencies
 
