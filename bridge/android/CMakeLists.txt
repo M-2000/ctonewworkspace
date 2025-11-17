@@ -4,16 +4,10 @@ project(bridge)
 
 set(RUST_TARGET_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../core/target")
 
-if(ANDROID_ABI STREQUAL "armeabi-v7a")
-    set(RUST_TARGET "armv7-linux-androideabi")
-elseif(ANDROID_ABI STREQUAL "arm64-v8a")
+if(ANDROID_ABI STREQUAL "arm64-v8a")
     set(RUST_TARGET "aarch64-linux-android")
-elseif(ANDROID_ABI STREQUAL "x86")
-    set(RUST_TARGET "i686-linux-android")
-elseif(ANDROID_ABI STREQUAL "x86_64")
-    set(RUST_TARGET "x86_64-linux-android")
 else()
-    message(FATAL_ERROR "Unsupported Android ABI: ${ANDROID_ABI}")
+    message(FATAL_ERROR "Unsupported Android ABI: ${ANDROID_ABI}. Only arm64-v8a is supported.")
 endif()
 
 set(RUST_LIB_PATH "${RUST_TARGET_DIR}/${RUST_TARGET}/release/libcore.so")

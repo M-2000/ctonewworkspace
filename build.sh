@@ -28,10 +28,7 @@ build_rust_android() {
     echo "Building for aarch64-linux-android..."
     cargo build --release --target aarch64-linux-android
     
-    echo "Building for armv7-linux-androideabi..."
-    cargo build --release --target armv7-linux-androideabi
-    
-    echo "Android Rust libraries built successfully"
+    echo "Android Rust library (arm64-v8a) built successfully"
 }
 
 build_rust_windows() {
@@ -46,7 +43,7 @@ build_rust_windows() {
     echo "Building for x86_64-pc-windows-msvc..."
     cargo build --release --target x86_64-pc-windows-msvc
     
-    echo "Windows Rust library built successfully"
+    echo "Windows Rust library (MSVC) built successfully"
 }
 
 build_flutter() {

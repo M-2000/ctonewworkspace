@@ -4,8 +4,8 @@ import 'dart:ffi' as ffi;
 import 'dart:io' show Platform;
 import 'package:ffi/ffi.dart';
 
-typedef GreetNative = ffi.Pointer<ffi.Char> Function(ffi.Pointer<ffi.Char>);
-typedef GreetDart = ffi.Pointer<ffi.Char> Function(ffi.Pointer<ffi.Char>);
+typedef CoreVersionNative = ffi.Pointer<ffi.Char> Function();
+typedef CoreVersionDart = ffi.Pointer<ffi.Char> Function();
 
 typedef FreeStringNative = ffi.Void Function(ffi.Pointer<ffi.Char>);
 typedef FreeStringDart = void Function(ffi.Pointer<ffi.Char>);
@@ -27,32 +27,27 @@ class CoreLib {
     }
   }
 
-  static final GreetDart _greet = _dylib
-      .lookup<ffi.NativeFunction<GreetNative>>('greet')
-      .asFunction<GreetDart>();
+  static final CoreVersionDart _coreVersion = _dylib
+      .lookup<ffi.NativeFunction<CoreVersionNative>>('core_version')
+      .asFunction<CoreVersionDart>();
 
   static final FreeStringDart _freeString = _dylib
       .lookup<ffi.NativeFunction<FreeStringNative>>('free_string')
       .asFunction<FreeStringDart>();
 
-  static String greet(String name) {
-    final namePtr = name.toNativeUtf8().cast<ffi.Char>();
-    final resultPtr = _greet(namePtr);
-    
+  static String coreVersion() {
+    final resultPtr = _coreVersion();
+
     if (resultPtr == ffi.nullptr) {
-      malloc.free(namePtr);
-      throw Exception('Failed to call greet');
+      throw Exception('Failed to call core_version');
     }
 
-    final result = resultPtr.cast<Utf8>().toDartString();
-    
+    final result = resultPtr.cast<ffi.Utf8>().toDartString();
+
     _freeString(resultPtr);
-    malloc.free(namePtr);
-    
+
     return result;
   }
 }
 
-String greet(String name) {
-  return CoreLib.greet(name);
-}
+String coreVersion() => CoreLib.coreVersion();
